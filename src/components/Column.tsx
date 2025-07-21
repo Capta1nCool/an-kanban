@@ -1,24 +1,26 @@
 import type React from "react";
-import { useDroppable } from "@dnd-kit/react";
 import { CollisionPriority } from "@dnd-kit/abstract";
+import { useSortable } from "@dnd-kit/react/sortable";
 
 const Column = ({
   children,
   id,
+  index,
 }: {
   children: React.ReactNode;
   id: string;
+  index: number;
 }) => {
-  const { isDropTarget, ref } = useDroppable({
+  const { ref, isDragging } = useSortable({
     id,
+    index,
     type: "column",
-    accept: "item",
-    collisionPriority: CollisionPriority.Normal, // TODO: This should be low but then experience is shit so find a walkaround
+    collisionPriority: CollisionPriority.Low,
+    accept: ["item", "column"],
   });
-  const style = isDropTarget ? { background: "#00000030" } : undefined;
 
   return (
-    <div className="column" ref={ref} style={style}>
+    <div className="column" ref={ref} data-dragging={isDragging}>
       {children}
     </div>
   );

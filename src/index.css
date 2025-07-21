@@ -96,29 +96,10 @@ h3 {
     flex-direction: column;
 }
 
-/*
-.card {
-    background: var(--sk-back-3);
-    border: 1px solid
-    padding: 1rem;
-    border-radius: var(--border-rad);
-    cursor: grab;
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-    transform: none;
-}
-
-.card[data-dragging="true"] {
-    opacity: 0.1;
-}
-*/
-
 .card {
     appearance: none;
     background: var(--sk-back-3);
     padding: 1rem;
-    border: none;
     border-radius: var(--border-rad);
     cursor: grab;
     transition:

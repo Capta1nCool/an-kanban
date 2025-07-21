@@ -22,6 +22,7 @@ function App() {
   });
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [columnOrder, setColumnOrder] = useState(() => Object.keys(board));
 
   const addColumn = () => {
     const name = prompt("Enter column name");
@@ -48,12 +49,23 @@ function App() {
       </div>
       <DragDropProvider
         onDragOver={(event) => {
+          const { source } = event.operation;
+
+          if (source?.type === "column") return;
+
           setBoard((board) => move(board, event));
+        }}
+        onDragEnd={(event) => {
+          const { source } = event.operation;
+
+          if (event.canceled || source?.type !== "column") return;
+
+          setColumnOrder((columns) => move(columns, event));
         }}
       >
         <div className="board">
-          {Object.entries(board).map(([column, items]) => (
-            <Column key={column} id={column}>
+          {Object.entries(board).map(([column, items], idx) => (
+            <Column key={column} id={column} index={idx}>
               <div className="head">
                 <h3>{column}</h3>
                 <span>{items.length}</span>
