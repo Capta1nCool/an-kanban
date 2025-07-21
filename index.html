@@ -7,6 +7,32 @@
         <title>Amplenote Kanban Plugin</title>
         <script>
             window.callAmplenotePlugin = function (...args) {
+                const mockData = {
+                    "78e80b42-e250-49d2-8d87-13320014d0a8": {
+                        content: "Here is a task",
+                        uuid: "78e80b42-e250-49d2-8d87-13320014d0a8",
+                    },
+                    "abcd-1234-abcd-1234": {
+                        content: "Another Todo Task",
+                        uuid: "abcd-1234-abcd-1234",
+                    },
+                    "a978e80b-42e2-5049-d28d-8713320014d0": {
+                        content: "Here is a task 2",
+                        uuid: "a978e80b-42e2-5049-d28d-8713320014d0",
+                    },
+                    "a348ccc9-afda-43da-b37a-6b2a4681d407": {
+                        content: "Here is a task 3",
+                        uuid: "a348ccc9-afda-43da-b37a-6b2a4681d407",
+                    },
+                    "d3bfce2d-d66b-46b0-8b94-23cc7ed51e9c": {
+                        content: "Here is a task 4",
+                        uuid: "d3bfce2d-d66b-46b0-8b94-23cc7ed51e9c",
+                    },
+                };
+
+                if (args[0] == "fetchTask") {
+                    return mockData[args[1]];
+                }
                 console.log("window.callAmplenotePlugin", args);
             };
         </script>

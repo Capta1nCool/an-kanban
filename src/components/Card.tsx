@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSortable } from "@dnd-kit/react/sortable";
 
 const Card = ({
@@ -7,7 +7,7 @@ const Card = ({
   index,
   column,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   id: string;
   index: number;
   column: string;
@@ -20,8 +20,20 @@ const Card = ({
     group: column,
   });
 
+  const [task, setTask] = useState({ content: "Loading...." });
+
+  useEffect(() => {
+    const loadContent = async () => {
+      const result = await window.callAmplenotePlugin("fetchTask", id);
+      setTask(result);
+    };
+
+    loadContent();
+  }, [id]);
+
   return (
     <div className="card" ref={ref} data-dragging={isDragging}>
+      {task.content}
       {children}
     </div>
   );

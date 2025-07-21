@@ -4,12 +4,23 @@ import Card from "./components/Card";
 import { move } from "@dnd-kit/helpers";
 import { DragDropProvider } from "@dnd-kit/react";
 
+declare global {
+  interface Window {
+    callAmplenotePlugin: (
+      method: string,
+      uuid: string,
+    ) => { content: string; uuid: string }; // TODO: Change it to amplenote task type
+  }
+}
+
 function App() {
   const [board, setBoard] = useState({
-    Todo: ["A0", "A1", "A2"],
-    "In Progress": ["B0", "B1"],
-    Done: [],
+    Todo: ["78e80b42-e250-49d2-8d87-13320014d0a8"],
+    "In Progress": ["a978e80b-42e2-5049-d28d-8713320014d0"],
+    Done: ["a348ccc9-afda-43da-b37a-6b2a4681d407"],
+    Upcoming: ["d3bfce2d-d66b-46b0-8b94-23cc7ed51e9c"],
   });
+
   const [searchQuery, setSearchQuery] = useState("");
 
   const addColumn = () => {
@@ -53,10 +64,13 @@ function App() {
                   .filter((item) =>
                     item.toLowerCase().includes(searchQuery.toLowerCase()),
                   )
-                  .map((item, idx) => (
-                    <Card key={item} id={item} index={idx} column={column}>
-                      {item}
-                    </Card>
+                  .map((uuid, idx) => (
+                    <Card
+                      key={uuid}
+                      id={uuid}
+                      index={idx}
+                      column={column}
+                    ></Card>
                   ))}
               </div>
             </Column>
