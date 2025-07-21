@@ -3,13 +3,26 @@ import Column from "./components/Column";
 import Card from "./components/Card";
 import { move } from "@dnd-kit/helpers";
 import { DragDropProvider } from "@dnd-kit/react";
+import { GripVertical, Plus, RefreshCcw, Trash } from "lucide-react";
+
+interface AmplenoteTask {
+  uuid: string;
+  content: string;
+  deadline?: number;
+  startAt?: number | null;
+  endAt?: number;
+  completedAt?: number;
+  dismissedAt?: number;
+  hideUntil?: number | null;
+  important: boolean;
+  urgent: boolean;
+  noteUUID: string;
+  score: number;
+}
 
 declare global {
   interface Window {
-    callAmplenotePlugin: (
-      method: string,
-      uuid: string,
-    ) => { content: string; uuid: string }; // TODO: Change it to amplenote task type
+    callAmplenotePlugin: (method: string, uuid: string) => AmplenoteTask;
   }
 }
 
@@ -34,6 +47,13 @@ function App() {
     }));
   };
 
+  const delCard = (uuid: string, column: string) => {
+    setBoard((prevBoard) => ({
+      ...prevBoard,
+      [column]: prevBoard[column].filter((item: string) => item !== uuid),
+    }));
+  };
+
   return (
     <>
       <div className="actions">
@@ -44,8 +64,12 @@ function App() {
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search task"
         />
-        <button onClick={addColumn}>Add Column</button>
-        <button>Refresh</button>
+        <button onClick={addColumn}>
+          <Plus className="icon" /> Add Column
+        </button>
+        <button>
+          <RefreshCcw className="icon" /> Refresh
+        </button>
       </div>
       <DragDropProvider
         onDragOver={(event) => {
@@ -65,24 +89,23 @@ function App() {
       >
         <div className="board">
           {Object.entries(board).map(([column, items], idx) => (
-            <Column key={column} id={column} index={idx}>
-              <div className="head">
-                <h3>{column}</h3>
-                <span>{items.length}</span>
-              </div>
-
+            <Column key={column} id={column} index={idx} items={items}>
               <div className="card-cont">
                 {items
                   .filter((item) =>
                     item.toLowerCase().includes(searchQuery.toLowerCase()),
                   )
                   .map((uuid, idx) => (
-                    <Card
-                      key={uuid}
-                      id={uuid}
-                      index={idx}
-                      column={column}
-                    ></Card>
+                    <Card key={uuid} id={uuid} index={idx} column={column}>
+                      <div className="card-actions">
+                        <Trash
+                          onClick={() => {
+                            delCard(uuid, column);
+                          }}
+                          className="icon trash"
+                        />
+                      </div>
+                    </Card>
                   ))}
               </div>
             </Column>

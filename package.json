@@ -13,6 +13,7 @@
     "@dnd-kit/abstract": "^0.1.20",
     "@dnd-kit/helpers": "^0.1.20",
     "@dnd-kit/react": "^0.1.20",
+    "lucide-react": "^0.525.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
