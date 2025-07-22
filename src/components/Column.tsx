@@ -1,7 +1,7 @@
 import type React from "react";
 import { CollisionPriority } from "@dnd-kit/abstract";
 import { useSortable } from "@dnd-kit/react/sortable";
-import { GripVertical } from "lucide-react";
+import { GripVertical, Trash } from "lucide-react";
 
 const Column = ({
   children,
@@ -18,16 +18,21 @@ const Column = ({
     id,
     index,
     type: "column",
-    collisionPriority: CollisionPriority.Low,
+    collisionPriority: CollisionPriority.Normal,
     accept: ["item", "column"],
   });
 
   return (
     <div className="column" ref={ref} data-dragging={isDragging}>
       <div className="head">
-        <GripVertical className="icon grip" ref={handleRef} />
-        <h3>{id}</h3>
-        <span>{items.length}</span>
+        <div className="col-heading">
+          <GripVertical className="icon grip" ref={handleRef} />
+          <h3>{id}</h3>
+        </div>
+        <div className="col-actions">
+          <Trash className="icon trash" />
+          <span>{items.length}</span>
+        </div>
       </div>
       {children}
     </div>

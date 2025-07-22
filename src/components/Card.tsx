@@ -6,11 +6,13 @@ const Card = ({
   id,
   index,
   column,
+  searchQuery,
 }: {
   children?: React.ReactNode;
   id: string;
   index: number;
   column: string;
+  searchQuery: string;
 }) => {
   const { ref, isDragging } = useSortable({
     id,
@@ -31,12 +33,12 @@ const Card = ({
     loadContent();
   }, [id]);
 
-  return (
+  return task.content.toLowerCase().includes(searchQuery.toLowerCase()) ? (
     <div className="card" ref={ref} data-dragging={isDragging}>
       {task.content}
       {children}
     </div>
-  );
+  ) : null;
 };
 
 export default Card;

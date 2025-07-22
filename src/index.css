@@ -82,11 +82,18 @@ body {
 .head {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
-.head > span {
-    margin-left: auto;
-    color: var(--sk-text-3);
+.col-heading {
+    display: flex;
+    align-items: center;
+}
+
+.col-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 
 h3 {
