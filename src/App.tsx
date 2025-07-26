@@ -24,6 +24,7 @@ declare global {
   interface Window {
     callAmplenotePlugin: {
       (method: "fetchTask", uuid: string): AmplenoteTask;
+      (method: "updateTask", uuid: string, options: any): string;
       (method: "addTask", content: string): AmplenoteTask;
       (method: "fetchNote"): { [key: string]: string[] };
       (method: "prompt", text: string): string;

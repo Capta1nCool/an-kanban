@@ -22,7 +22,7 @@ const Card = ({
     group: column,
   });
 
-  const [task, setTask] = useState({ content: "Loading...." });
+  const [task, setTask] = useState<AmplenoteTask | null>(null);
 
   useEffect(() => {
     const loadContent = async () => {
@@ -33,9 +33,16 @@ const Card = ({
     loadContent();
   }, [id]);
 
-  return task.content.toLowerCase().includes(searchQuery.toLowerCase()) ? (
+  const finishTask = () => {
+    return;
+  };
+
+  return task?.content.toLowerCase().includes(searchQuery.toLowerCase()) ? (
     <div className="card" ref={ref} data-dragging={isDragging}>
-      {task.content}
+      <div className="task-content">
+        <input type="checkbox" onClick={finishTask} />
+        {task.content}
+      </div>
       {children}
     </div>
   ) : null;
