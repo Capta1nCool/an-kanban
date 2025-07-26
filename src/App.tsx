@@ -24,6 +24,7 @@ declare global {
   interface Window {
     callAmplenotePlugin: {
       (method: "fetchTask", uuid: string): AmplenoteTask;
+      (method: "addTask", content: string): AmplenoteTask;
       (method: "fetchNote"): { [key: string]: string[] };
       (method: "prompt", text: string): string;
       (
@@ -88,6 +89,20 @@ function App() {
     loadBoard();
   };
 
+  const addCard = async (column: string) => {
+    const content = await window.callAmplenotePlugin(
+      "prompt",
+      "Enter card content",
+    );
+
+    const task = await window.callAmplenotePlugin("addTask", content);
+
+    setBoard((prevBoard) => ({
+      ...prevBoard,
+      [column]: [...(prevBoard[column] || []), task.uuid],
+    }));
+  };
+
   return (
     <>
       <div className="actions">
@@ -146,6 +161,14 @@ function App() {
                   </Card>
                 ))}
               </div>
+              <button
+                className="add-card-btn"
+                onClick={() => {
+                  addCard(column);
+                }}
+              >
+                <Plus /> Add Card
+              </button>
             </Column>
           ))}
         </div>

@@ -158,3 +158,21 @@ button {
 .grip {
     cursor: grab;
 }
+
+.add-card-btn {
+    background-color: transparent;
+    border: none;
+    color: var(--sk-text-1);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    margin-top: auto;
+}
+
+.add-card-btn svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.add-card-btn:hover {
+    color: var(--sk-text-2);
+}
