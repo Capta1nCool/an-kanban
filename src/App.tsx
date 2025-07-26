@@ -25,6 +25,7 @@ declare global {
     callAmplenotePlugin: {
       (method: "fetchTask", uuid: string): AmplenoteTask;
       (method: "fetchNote"): { [key: string]: string[] };
+      (method: "prompt", text: string): string;
       (
         method: "generateMD",
         board: { [key: string]: string[] },
@@ -50,14 +51,19 @@ function App() {
     loadBoard();
   }, []);
 
-  const addColumn = () => {
-    const name = prompt("Enter column name");
+  const addColumn = async () => {
+    const name = await window.callAmplenotePlugin(
+      "prompt",
+      "Enter column heading",
+    );
     if (!name) return;
 
     setBoard((prevBoard) => ({
       ...prevBoard,
       [name.trim()]: [],
     }));
+
+    window.callAmplenotePlugin("generateMD", board, columnOrder);
   };
 
   const delCard = (uuid: string, column: string) => {
@@ -70,6 +76,16 @@ function App() {
         ),
       };
     });
+  };
+
+  const refreshBoard = () => {
+    const loadBoard = async () => {
+      const newBoard = await window.callAmplenotePlugin("fetchNote");
+      setBoard(newBoard);
+      setColumnOrder(Object.keys(newBoard));
+    };
+
+    loadBoard();
   };
 
   return (
@@ -85,7 +101,7 @@ function App() {
         <button onClick={addColumn}>
           <Plus className="icon" /> Add Column
         </button>
-        <button>
+        <button onClick={refreshBoard}>
           <RefreshCcw className="icon" /> Refresh
         </button>
       </div>
