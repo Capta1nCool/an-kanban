@@ -9,7 +9,8 @@
 - [x] Fetch tasks from note
 - [x] Update the style be more similar to the old version of the plugin
 - [x] Parse data back to note
-- [ ] Add card and column
+- [x] Add card and column
+- [ ] Column reorder md generation
 - [ ] Task completion
 - [ ] Lexical Integration
 - [ ] RichFootnote Integration

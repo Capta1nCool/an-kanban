@@ -59,12 +59,23 @@ function App() {
     );
     if (!name) return;
 
-    setBoard((prevBoard) => ({
-      ...prevBoard,
-      [name.trim()]: [],
-    }));
+    let updatedBoard = {};
 
-    window.callAmplenotePlugin("generateMD", board, columnOrder);
+    setBoard((prevBoard) => {
+      updatedBoard = {
+        ...prevBoard,
+        [name.trim()]: [],
+      };
+
+      return updatedBoard;
+    });
+    setColumnOrder(Object.keys(updatedBoard));
+
+    window.callAmplenotePlugin(
+      "generateMD",
+      updatedBoard,
+      Object.keys(updatedBoard),
+    );
   };
 
   const delCard = (uuid: string, column: string) => {
@@ -95,12 +106,22 @@ function App() {
       "Enter card content",
     );
 
+    if (!content) return;
+
     const task = await window.callAmplenotePlugin("addTask", content);
 
-    setBoard((prevBoard) => ({
-      ...prevBoard,
-      [column]: [...(prevBoard[column] || []), task.uuid],
-    }));
+    let updatedBoard = {};
+
+    setBoard((prevBoard) => {
+      updatedBoard = {
+        ...prevBoard,
+        [column]: [...(prevBoard[column] || []), task.uuid],
+      };
+
+      return updatedBoard;
+    });
+
+    window.callAmplenotePlugin("generateMD", updatedBoard, columnOrder);
   };
 
   return (
